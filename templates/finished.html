@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <h1>Finished Tasks</h1>
+
+        <div class="finished-content">
+            <div class="task-list">
+                <table class="task-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th>Description</th>
+                        <th>Deadline</th>
+                    </tr>
+                    {% for finished_task in tasks %}
+                        <tr>
+                            <td>{{ finished_task['name'] }}</td>
+                            <td>{{ finished_task['duration'] }}</td>
+                            <td>{{ finished_task['description'] }}</td>
+                            <td>{{ finished_task['deadline'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <p>Total Tasks: {{ total_tasks }}</p>
+        <p>Unfinished Tasks: {{ unfinished_tasks }}</p>
+        <p>Finished Tasks: {{ num_finished_tasks }}</p>
+        <img src="{{ chart_filename }}" alt="Task Completion Chart">
+    </div>
+{% endblock %}

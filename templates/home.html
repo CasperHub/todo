@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to the Home Page</h1>
+
+    <div class="options">
+        <h2>Create New Task:</h2>
+        <form action="{{ url_for('home') }}" method="POST" enctype="multipart/form-data">
+            <div class="input-field">
+                <label for="task_name">Task Name:</label>
+                <input type="text" id="task_name" name="task_name" required>
+            </div><br>
+            <div class="input-field">
+                <label>Task Duration:</label>
+                <div class="radio-group">
+                    <input type="radio" id="duration_30" name="task_duration" value="30" required>
+                    <label for="duration_30">30min</label>
+                    <input type="radio" id="duration_60" name="task_duration" value="60" required>
+                    <label for="duration_60">1hr</label>
+                    <input type="radio" id="duration_120" name="task_duration" value="120" required>
+                    <label for="duration_120">2hrs</label>
+                    <input type="radio" id="duration_240" name="task_duration" value="240" required>
+                    <label for="duration_240">4hrs</label>
+                    <input type="radio" id="duration_480" name="task_duration" value="480" required>
+                    <label for="duration_480">8hrs</label>
+                </div>
+            </div><br>
+            <div class="input-field">
+                <label for="task_description">Task Description:</label><br>
+                <textarea id="task_description" name="task_description" required></textarea>
+            </div><br>
+            <div class="input-field">
+                <label for="task_deadline">Task Deadline:</label>
+                <input type="date" id="task_deadline" name="task_deadline" required>
+            </div><br>
+            <div class="input-field">
+                <label for="task_file">Upload a task File:</label>
+                <input type="file" id="task_file" name="task_file" accept=".csv">
+            </div><br>
+            <button type="submit" name="action" value="create">Add Task</button>
+            <button type="submit" name="action" value="upload">Upload File</button>
+        </form>
+    </div>
+{% endblock %}

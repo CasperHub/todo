@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.content-wrapper {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
+
+.navbar a {
+    display: inline-block;
+    color: #fff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #555;
+}
+
+.content {
+    background-color: #fff;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+}
+
+h2 {
+    color: #666;
+}
+
+p {
+    color: #555;
+    line-height: 1.5;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+input,
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ea0000;
+}
+
+.task-list {
+    margin-top: 20px;
+    text-align: left;
+}
+
+
+.table-container {
+    overflow-x: auto;
+}
+
+.task-table {
+    width: 100%;
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
+.task-table th,
+.task-table td {
+    padding: 8px;
+    text-align: left;
+    white-space: normal;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+.finished-content {
+  margin: 20px;
+}
+
+.progress-bar {
+  height: 20px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-unfinished {
+  height: 100%;
+  background-color: #ff0000;
+}
+
+.progress-bar-finished {
+  height: 100%;
+  background-color: #00ff00;
+}
+
+.chart-image {
+  width: 100px;
+  height: 75px;
+}

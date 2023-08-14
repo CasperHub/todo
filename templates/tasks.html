@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to the Tasks Page</h1>
+    <form id="sort_form" action="{{ url_for('tasks') }}" method="POST">
+        <label for="sort_by">Sort Tasks:</label>
+        <select id="sort_by" name="sort_by">
+            <option value="durationa" {% if sort_by == 'durationa' %}selected{% endif %}>Duration ascending</option>
+            <option value="durationd" {% if sort_by == 'durationd' %}selected{% endif %}>Duration descending</option>
+            <option value="deadlinea" {% if sort_by == 'deadlinea' %}selected{% endif %}>Deadline ascending</option>
+            <option value="deadlined" {% if sort_by == 'deadlined' %}selected{% endif %}>Deadline descending</option>
+        </select>
+    </form>
+    <script>
+        document.getElementById('sort_by').addEventListener('change', function() {
+            document.getElementById('sort_form').submit();
+        });
+    </script>
+
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="task-list">
+                <h2>Todo List:</h2>
+                <table class="task-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th>Description</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>  <!-- Added column for Remove button -->
+                    </tr>
+                    {% for todo in todos %}
+                        <tr>
+                            <td>{{ todo['name'] }}</td>
+                            <td>{{ todo['duration'] }}</td>
+                            <td>{{ todo['description'] }}</td>
+                            <td>{{ todo['deadline'] }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_task') }}" method="POST">
+                                    <input type="hidden" name="task_name" value="{{ todo['name'] }}">
+                                    <button type="submit">Finish</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
