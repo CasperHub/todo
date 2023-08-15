@@ -1,11 +1,30 @@
-from datetime import datetime
-
 import matplotlib.pyplot as plt
 import os
 import csv
+import json
+import requests
+import jsonify
 
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
+
+"""
+connecting to the weather api and getting a json file of the weather descriptions.
+"""
+API_key = "a2c69bee22d7797a8bd8966ac941a7af"
+#these are the longitude and latitude values of Leiden
+lon = 4.497010
+lat = 52.160114
+
+#This requests an API call to get information from the openweathermap api, with the lon and lat from above
+response_API = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}")
+#converts in to text
+data = response_API.text
+#makes a json file from the text that can be used further
+parse_json = json.loads(data)
+#To get the temperature do this: the temperature is in Kelvin.
+temperature = parse_json['main']['temp']
+#to put in Celsius: K - 273.15
 
 app = Flask(__name__)
 
