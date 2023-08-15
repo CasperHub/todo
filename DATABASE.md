@@ -5,9 +5,9 @@ start workbench and setup a new connection, the username, database and password 
 
 ```
 mydb = mysql.connector.connect(
-    user='root',
-    password='root',
-    database='todo'
+    user='user',
+    password='password',
+    database='database_name'
 )
 ```
 
@@ -15,17 +15,33 @@ if you didn't change the hostname from 127.0.0.1 and the port from 3306 you can 
 
 ```
 mydb = mysql.connector.connect(
-    user='root',
-    password='root',
+    user='user',
+    password='password',
     port=port,
-    database='todo',
+    database='database_name',
     hostname='hostname',
 )
 ```
+to create a database: 
+
+```CREATE DATABASE database_name;```
+
+to create a table in the database: 
 
 ```
-insert into tasks(`name`, `desc`, `deadline`, `duration`)
+CREATE TABLE your_table_name (
+    row0 INT AUTO_INCREMENT PRIMARY KEY,
+    row1 INT,
+    row2 VARCHAR(255),
+    row3 INT,
+    row4 VARCHAR(255)
+);
+```
+
+to insert values into the table: 
+```
+insert into your_table_name(`row1`, `row2`, `row3`, `row4`)
 values
-('Write a blog post', 'Compose an informative blog post', '2023-07-10', 90),
-('Attend a webinar', 'Participate in an educational webinar', '2023-07-11', 120);
+(1, 'a', 2, 'b''),
+(3, 'c', 4, 'd'');
 ```
