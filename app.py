@@ -5,8 +5,10 @@ import json
 import requests
 import jsonify
 import datetime
+import mysql.connector
+import pandas as pd
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 from werkzeug.utils import secure_filename
 
 """
@@ -27,7 +29,55 @@ parse_json = json.loads(data)
 temperature = parse_json['main']['temp']
 #to put in Celsius: K - 273.15
 
+mydb = mysql.connector.connect(
+    user='root',
+    password='root',
+    port=3310,
+    database='todo'
+)
+
+cursor = mydb.cursor()
+
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/files'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    cursor.execute("""select * from tasks""")
+    data = cursor.fetchall()
+    return render_template('template.html', data=data)
+
+@app.route('/test-upload')
+def index():
+    return render_template('upload.html')
+
+@app.route('/test-upload', methods=['POST'])
+def upload():
+    uploaded_file = request.files['task_file']
+    if uploaded_file.filename != '':
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
+        uploaded_file.save(file_path)
+        parseCSV(file_path)
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename))
+    return redirect('test-upload')
+
+def parseCSV(file_path):
+    col_names = ['name', 'desc', 'deadline', 'duration']
+    csvData = pd.read_csv(file_path, names=col_names, header=None)
+    value = len(list(csvData))
+    print(value)
+    if value != 4:
+        abort(400) # fix error if number of columns not equal to 4
+    for i, row in csvData.iterrows():
+        sql = """INSERT INTO tasks (`name`, `desc`, `deadline`, `duration`) values (%s, %s, %s, %s)"""
+        value = (row['name'], row['desc'], row['deadline'], row['duration'])
+        cursor.execute(sql, value)
+        mydb.commit()
+        print(i, row['name'], row['desc'], row['deadline'], row['duration'])
+
+
 
 """
 I make a list with todos fill the table of tasks.
@@ -112,35 +162,28 @@ def home():
     Render the home page and handle task creation and file upload.
 
     """
-    if request.method == 'POST':
-        if 'task_file' in request.files:
-            task_file = request.files['task_file']
-            if task_file.filename != '':
-                filename = secure_filename(task_file.filename)
-                task_file.save(filename)
-                process_uploaded_tasks(filename)
-                return redirect(url_for('home'))
+    # if request.method == 'POST':
 
-        task_name = request.form['task_name']
-        task_duration = request.form['task_duration']
-        task_description = request.form['task_description']
-        task_deadline = request.form['task_deadline']
+    #     task_name = request.form['task_name']
+    #     task_duration = request.form['task_duration']
+    #     task_description = request.form['task_description']
+    #     task_deadline = request.form['task_deadline']
 
         # Validate that all fields are filled for the "Add Task" button
-        if request.form['action'] == 'create' and (
-                not task_name or not task_duration or not task_description
-                or not task_deadline
-        ):
-            return 'Please fill in all fields.'
+        # if request.form['action'] == 'create' and (
+        #         not task_name or not task_duration or not task_description
+        #         or not task_deadline
+        # ):
+        #     return 'Please fill in all fields.'
 
-        todo = {
-            'name': task_name,
-            'duration': task_duration,
-            'description': task_description,
-            'deadline': task_deadline
-        }
+        # todo = {
+        #     'name': task_name,
+        #     'duration': task_duration,
+        #     'description': task_description,
+        #     'deadline': task_deadline
+        # }
 
-        todos.append(todo)  # Add the task to the list
+        # todos.append(todo)  # Add the task to the list
 
     return render_template('home.html')
 

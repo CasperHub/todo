@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to the test Page</h1>
+
+<div class="content-wrapper">
+    <div class="content">
+        <div class="task-list">
+            <h2>Todo List:</h2>
+            <table class="task-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                </tr>
+                {% for item in data %}
+                <tr>
+                    <td>{{item[1]}}</td>
+                    <td>{{item[4]}}</td>
+                    <td>{{item[2]}}</td>
+                    <td>{{item[3]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
